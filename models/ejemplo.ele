@@ -1,0 +1,32 @@
+module ejemplo
+
+open util/ordering[State] as ord
+
+sig State {
+    light: one Color
+}
+
+abstract sig Color {}
+one sig Red, Green extends Color {}
+
+pred init[s: State] {
+    s.light = Red
+}
+
+pred next[s, s': State] {
+    (s.light = Red and s'.light = Green)
+    or
+    (s.light = Green and s'.light = Red)
+}
+
+fact temporal_behavior {
+    init[ord/first]
+    all s: State - ord/last |
+        next[s, ord/next[s]]
+}
+
+assert never_two_reds {
+    all s: State | s.light != Red or ord/next[s].light != Red
+}
+
+check never_two_reds for 5 State
