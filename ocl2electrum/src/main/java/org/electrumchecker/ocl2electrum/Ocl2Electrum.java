@@ -34,6 +34,7 @@ public final class Ocl2Electrum {
         }
 
         String modelPath = null;
+        String umlPath = null;
         String oclPath = null;
         String outputPath = null;
         int steps = 5;
@@ -43,6 +44,8 @@ public final class Ocl2Electrum {
             String value = arguments[index + 1];
             if ("--model".equals(option)) {
                 modelPath = value;
+            } else if ("--uml".equals(option)) {
+                umlPath = value;
             } else if ("--ocl".equals(option)) {
                 oclPath = value;
             } else if ("--out".equals(option)) {
@@ -61,11 +64,10 @@ public final class Ocl2Electrum {
             }
         }
 
-        if (modelPath == null || oclPath == null || outputPath == null) {
+        if ((modelPath == null) == (umlPath == null) || oclPath == null || outputPath == null) {
             throw new IllegalArgumentException(usage());
         }
 
-        String model = readFile(modelPath);
         String ocl = readFile(oclPath);
         OclInvariantLexer lexer = new OclInvariantLexer(CharStreams.fromString(ocl));
         OclInvariantParser parser = new OclInvariantParser(new CommonTokenStream(lexer));
@@ -77,6 +79,7 @@ public final class Ocl2Electrum {
 
         OclInvariantParser.DocumentContext document = parser.document();
         String context = document.ID().getText();
+        String model = umlPath == null ? readFile(modelPath) : UmlModelGenerator.generate(umlPath, context);
         ExpressionGenerator generator = new ExpressionGenerator();
         Set<String> generatedNames = new HashSet<String>();
         StringBuilder assertions = new StringBuilder();
@@ -115,7 +118,8 @@ public final class Ocl2Electrum {
     }
 
     private static String usage() {
-        return "uso: ocl2electrum --model modelo.ele --ocl invariantes.ocl --out generado.ele [--steps N]";
+        return "uso: ocl2electrum (--model modelo.ele | --uml modelo.uml) "
+            + "--ocl invariantes.ocl --out generado.ele [--steps N]";
     }
 
     private static final class ExpressionGenerator extends OclInvariantBaseVisitor<String> {

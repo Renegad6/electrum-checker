@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+         xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="model_ascensor" name="Ascensor">
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="door_state" name="EstadoPuerta">
+      <ownedLiteral xmi:id="door_open" name="Abierta"/>
+      <ownedLiteral xmi:id="door_closing" name="Cerrando"/>
+      <ownedLiteral xmi:id="door_closed" name="Cerrada"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="threshold_state" name="EstadoUmbral">
+      <ownedLiteral xmi:id="threshold_free" name="Libre"/>
+      <ownedLiteral xmi:id="threshold_occupied" name="Ocupado"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="elevator" name="Ascensor">
+      <ownedAttribute xmi:id="elevator_door" name="puerta" type="door_state" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="elevator_threshold" name="umbral" type="threshold_state" lower="1" upper="1"/>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>

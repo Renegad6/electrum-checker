@@ -1,6 +1,6 @@
 # electrum-checker
 
-Electrum 2 model checker and a small OCL-invariant-to-Electrum translator.
+Electrum 2 model checker and a small OCL-invariant-to-Electrum translator. The translator can use either an existing Electrum model or a UML 2 XMI model as its type context.
 
 ## Build the image
 
@@ -10,7 +10,9 @@ docker build -f Dockerfile -t electrumchecker:latest .
 
 ## Translate OCL invariants
 
-The converter takes an existing `.ele` model as its type context, parses one OCL `context` and one or more `inv` declarations, then appends Electrum assertions and bounded `check` commands. The current grammar supports Boolean and integer literals, `self` navigation, comparisons, arithmetic, and Boolean operators. It does not yet implement OCL collections, `let`, operation contracts, `null`, or `invalid`; type correctness of properties is checked by Electrum when the generated model is run.
+The converter parses one OCL `context` and one or more `inv` declarations, then generates Electrum assertions and bounded `check` commands. Select exactly one type context: an existing `.ele` model with `--model`, or UML 2 XMI with `--uml`.
+
+The initial UML profile supports named classes, enumerations and class-owned properties (including navigable association ends) with multiplicities `1`, `0..1`, `0..*` and `1..*`. UML `Integer` maps to Electrum `Int`; references to classes and enumerations map to Electrum relations. Generalization, association-owned ends, UML operations and other UML datatypes are not yet supported. The OCL grammar supports Boolean and integer literals, `self` navigation, comparisons, arithmetic, and Boolean operators; it does not yet implement collections, `let`, operation contracts, `null`, or `invalid`.
 
 Example input, [`models/ascensor.ocl`](models/ascensor.ocl), targets the `Ascensor` signature defined by [`models/ascensor_contraejemplo.ele`](models/ascensor_contraejemplo.ele):
 
@@ -30,3 +32,22 @@ docker run --rm -v "$PWD/models:/models:ro" electrumchecker:latest \
 ```
 
 The generated invariant should find the elevator counterexample in the intentionally unsafe model. Use a corrected `.ele` model as `--model` to check a repaired design.
+
+### Generate Electrum directly from UML XMI
+
+[`models/ascensor.uml`](models/ascensor.uml) is a minimal UML 2 XMI model with a class, enumerations and scalar properties. Translate it together with the same OCL invariant:
+
+```bash
+docker run --rm -v "$PWD:/workspace" --entrypoint ocl2electrum electrumchecker:latest \
+	--uml /workspace/models/ascensor.uml \
+	--ocl /workspace/models/ascensor.ocl \
+	--out /workspace/models/ascensor_desde_uml.ele \
+	--steps 5
+```
+
+Then check the generated file (it contains one check, command index `0`):
+
+```bash
+docker run --rm -v "$PWD/models:/models:ro" electrumchecker:latest \
+	--command 0 /models/ascensor_desde_uml.ele
+```
