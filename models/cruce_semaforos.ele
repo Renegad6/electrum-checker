@@ -1,0 +1,58 @@
+module cruce_semaforos
+
+open util/ordering[State] as ord
+
+abstract sig Color {}
+one sig Rojo, Amarillo, Verde extends Color {}
+
+abstract sig Fase {}
+one sig VerdeNS, AmarilloNS, VerdeEO, AmarilloEO extends Fase {}
+
+sig State {
+    fase: one Fase,
+    norteSur: one Color,
+    esteOeste: one Color
+}
+
+fact inicio {
+    ord/first.fase = VerdeNS
+}
+
+fact luces_por_fase {
+    all s: State |
+        (s.fase = VerdeNS and s.norteSur = Verde and s.esteOeste = Rojo)
+        or (s.fase = AmarilloNS and s.norteSur = Amarillo and s.esteOeste = Rojo)
+        or (s.fase = VerdeEO and s.norteSur = Rojo and s.esteOeste = Verde)
+        or (s.fase = AmarilloEO and s.norteSur = Rojo and s.esteOeste = Amarillo)
+}
+
+fact ciclo_de_fases {
+    all s: State - ord/last |
+        let following = ord/next[s] |
+            (s.fase = VerdeNS and following.fase = AmarilloNS)
+            or (s.fase = AmarilloNS and following.fase = VerdeEO)
+            or (s.fase = VerdeEO and following.fase = AmarilloEO)
+            or (s.fase = AmarilloEO and following.fase = VerdeNS)
+}
+
+assert no_verdes_en_conflicto {
+    all s: State | s.norteSur = Verde implies s.esteOeste != Verde
+}
+
+assert amarillo_libera_la_otra_via {
+    all s: State |
+        (s.norteSur = Amarillo implies s.esteOeste = Rojo)
+        and (s.esteOeste = Amarillo implies s.norteSur = Rojo)
+}
+
+assert no_salto_de_verde {
+    all s: State - ord/last |
+        let following = ord/next[s] |
+            not (s.fase = VerdeNS and following.fase = VerdeEO)
+            and not (s.fase = VerdeEO and following.fase = VerdeNS)
+}
+
+check no_verdes_en_conflicto for 6 but exactly 6 State
+check amarillo_libera_la_otra_via for 6 but exactly 6 State
+check no_salto_de_verde for 6 but exactly 6 State
+run {} for 6 but exactly 6 State
