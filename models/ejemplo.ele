@@ -13,10 +13,10 @@ pred init[s: State] {
     s.light = Red
 }
 
-pred next[s, s': State] {
-    (s.light = Red and s'.light = Green)
+pred next[s, following: State] {
+    (s.light = Red and following.light = Green)
     or
-    (s.light = Green and s'.light = Red)
+    (s.light = Green and following.light = Red)
 }
 
 fact temporal_behavior {
@@ -29,4 +29,4 @@ assert never_two_reds {
     all s: State | s.light != Red or ord/next[s].light != Red
 }
 
-check never_two_reds for 5 State
+check never_two_reds for 5 but 5 State
