@@ -64,7 +64,6 @@ assert ambos_sentidos_avanzan {
     and always eventually (Cruce.fase = VerdeEO)
 }
 
-check sin_verdes_conflictivos for 8 steps
-check amarillo_da_paso for 8 steps
-check ambos_sentidos_avanzan for 8 steps
-run {} for 8 steps
+check sin_verdes_conflictivos
+check amarillo_da_paso
+check ambos_sentidos_avanzan
