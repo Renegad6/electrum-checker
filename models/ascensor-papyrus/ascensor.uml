@@ -16,4 +16,5 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_elevatorDoor" name="puerta" type="_doorState" lower="1" upper="1"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_elevatorThreshold" name="umbral" type="_thresholdState" lower="1" upper="1"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_A40nI4cEiHeigG0QmrYn0A" name="Class"/>
 </uml:Model>

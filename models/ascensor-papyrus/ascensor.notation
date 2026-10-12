@@ -38,6 +38,32 @@
     <element xmi:type="uml:Class" href="ascensor.uml#_elevator"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ascensorBounds" x="180" y="120" width="240" height="120"/>
   </children>
+  <children xmi:type="notation:Shape" xmi:id="_iOjuk2j4AgPaFBP_rfD9fQ" type="Class_Shape">
+    <children xmi:type="notation:DecorationNode" xmi:id="_POziWer2jrtJWkJprj8wnQ" type="Class_NameLabel"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_HPQ3LfunwS7uPs--gKbkeA" type="Class_FloatingNameLabel">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_lzQn1MfqQdJQOqWyW2DoAg" y="15"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_A-ETCn2IQOKTp4rGMcrk9Q" type="Class_AttributeCompartment">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_w307ynJu2Tq5xoAOU24i8Q"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_QFFVD9H9XrVgs9ldzbjYTA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_aTyCNMgZb_ubCYgXNWvWmw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="__8h5UCnWXcSP0NvaTU4lOA"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_RhTlphlQC89rOy9o0O00ug" type="Class_OperationCompartment">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_OM6Jlf7zdId21gUjgw6rXA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Hv8UC-JyBjtxg_RNBRyG6w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_U1w1wE35MwO0c6ugiqPKsQ"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gb_W-Kv8ix03MBIcAq3d2g"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_KBNVgYo93m_-a6VJ5X37DQ" type="Class_NestedClassifierCompartment">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_l5IbmqB0k52wJdT4ylVTWg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_TGOOYwj-Au_227ex4938yQ"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ijO37m7bEB-V0yeeMR0-FQ"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SDmLChVJa3DlzmjIn7XI2A"/>
+    </children>
+    <element xmi:type="uml:Class" href="ascensor.uml#_A40nI4cEiHeigG0QmrYn0A"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jBT4-tsSiMP_oMYhM41m5Q" x="25" y="10"/>
+  </children>
   <styles xmi:type="notation:StringValueStyle" xmi:id="_diagramCompatibility" name="diagram_compatibility_version" stringValue="1.0.0"/>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_diagramStyle"/>
   <styles xmi:type="style:PapyrusViewStyle" xmi:id="_papyrusViewStyle">

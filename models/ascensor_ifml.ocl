@@ -1,0 +1,4 @@
+context InteractionFlow
+
+inv NoFlujoAElMismoElemento:
+    self.source <> self.target

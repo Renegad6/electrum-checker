@@ -14,6 +14,8 @@ The converter parses one OCL `context` and one or more `inv` declarations, then 
 
 The initial UML profile supports named classes, enumerations and class-owned properties (including navigable association ends) with multiplicities `1`, `0..1`, `0..*` and `1..*`. UML `Integer` maps to Electrum `Int`; references to classes and enumerations map to Electrum relations. Generalization, association-owned ends, UML operations and other UML datatypes are not yet supported. The OCL grammar supports Boolean and integer literals, `self` navigation, comparisons, arithmetic, and Boolean operators; it does not yet implement collections, `let`, operation contracts, `null`, or `invalid`.
 
+The IFML profile reads XMI view containers, view components, actions, events, parameters, component parts, domain concepts, and interaction flow elements. It generates one Electrum singleton per IFML element and `source`/`target` relations for each flow. Flow endpoints are resolved by `xmi:id` or `href` references inside the same XMI document. Other IFML properties are not yet translated.
+
 Example input, [`models/ascensor.ocl`](models/ascensor.ocl), targets the `Ascensor` signature defined by [`models/ascensor_contraejemplo.ele`](models/ascensor_contraejemplo.ele):
 
 ```bash
@@ -51,6 +53,20 @@ Then check the generated file (it contains one check, command index `0`):
 docker run --rm -v "$PWD/models:/models:ro" electrumchecker:latest \
 	--command 0 /models/ascensor_desde_uml.ele
 ```
+
+### Generate Electrum from IFML XMI
+
+[`models/ascensor.ifml.xmi`](models/ascensor.ifml.xmi) demonstrates an IFML model with view containers and interaction flows. It can be passed directly to the converter with an OCL context such as `InteractionFlow`:
+
+```bash
+docker run --rm -v "$PWD:/workspace" --entrypoint ocl2electrum electrumchecker:latest \
+	--ifml /workspace/models/ascensor.ifml.xmi \
+	--ocl /workspace/models/ascensor_ifml.ocl \
+	--out /workspace/models/ascensor_desde_ifml.ele \
+	--steps 5
+```
+
+The generated file includes the IFML elements and a fact linking each flow to its source and target. In the example, the invariant checks that a flow cannot point to itself.
 
 ### Open the elevator model in Papyrus
 

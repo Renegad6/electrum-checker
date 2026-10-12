@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ifml:InteractionFlowModel
+    xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+    xmlns:ifml="urn:ifml"
+    xmi:version="2.0"
+    xmi:id="_elevatorIfml"
+    name="Ascensor">
+  <elements xmi:type="ifml:ViewContainer" xmi:id="_floorSelection" name="SeleccionPiso"/>
+  <elements xmi:type="ifml:ViewContainer" xmi:id="_elevatorStatus" name="EstadoAscensor"/>
+  <elements xmi:type="ifml:ViewComponent" xmi:id="_floorButton" name="BotonPiso"/>
+  <elements xmi:type="ifml:Action" xmi:id="_requestElevator" name="SolicitarAscensor"/>
+  <elements xmi:type="ifml:InteractionFlow" xmi:id="_showStatus" name="MostrarEstado"
+      source="_floorSelection" target="_elevatorStatus"/>
+  <elements xmi:type="ifml:InteractionFlow" xmi:id="_selectFloor" name="SeleccionarPiso"
+      source="_floorButton" target="_requestElevator"/>
+</ifml:InteractionFlowModel>

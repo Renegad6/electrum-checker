@@ -35,6 +35,7 @@ public final class Ocl2Electrum {
 
         String modelPath = null;
         String umlPath = null;
+        String ifmlPath = null;
         String oclPath = null;
         String outputPath = null;
         int steps = 5;
@@ -46,6 +47,8 @@ public final class Ocl2Electrum {
                 modelPath = value;
             } else if ("--uml".equals(option)) {
                 umlPath = value;
+            } else if ("--ifml".equals(option)) {
+                ifmlPath = value;
             } else if ("--ocl".equals(option)) {
                 oclPath = value;
             } else if ("--out".equals(option)) {
@@ -64,7 +67,9 @@ public final class Ocl2Electrum {
             }
         }
 
-        if ((modelPath == null) == (umlPath == null) || oclPath == null || outputPath == null) {
+        int modelInputs = (modelPath == null ? 0 : 1) + (umlPath == null ? 0 : 1)
+                + (ifmlPath == null ? 0 : 1);
+        if (modelInputs != 1 || oclPath == null || outputPath == null) {
             throw new IllegalArgumentException(usage());
         }
 
@@ -79,7 +84,14 @@ public final class Ocl2Electrum {
 
         OclInvariantParser.DocumentContext document = parser.document();
         String context = document.ID().getText();
-        String model = umlPath == null ? readFile(modelPath) : UmlModelGenerator.generate(umlPath, context);
+        String model;
+        if (umlPath != null) {
+            model = UmlModelGenerator.generate(umlPath, context);
+        } else if (ifmlPath != null) {
+            model = IfmlModelGenerator.generate(ifmlPath, context);
+        } else {
+            model = readFile(modelPath);
+        }
         ExpressionGenerator generator = new ExpressionGenerator();
         Set<String> generatedNames = new HashSet<String>();
         StringBuilder assertions = new StringBuilder();
@@ -118,7 +130,7 @@ public final class Ocl2Electrum {
     }
 
     private static String usage() {
-        return "uso: ocl2electrum (--model modelo.ele | --uml modelo.uml) "
+        return "uso: ocl2electrum (--model modelo.ele | --uml modelo.uml | --ifml modelo.ifml) "
             + "--ocl invariantes.ocl --out generado.ele [--steps N]";
     }
 
