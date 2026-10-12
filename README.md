@@ -35,11 +35,11 @@ The generated invariant should find the elevator counterexample in the intention
 
 ### Generate Electrum directly from UML XMI
 
-[`models/ascensor.uml`](models/ascensor.uml) is a minimal UML 2 XMI model with a class, enumerations and scalar properties. Translate it together with the same OCL invariant:
+[`models/ascensor-papyrus/ascensor.uml`](models/ascensor-papyrus/ascensor.uml) is a Papyrus UML 2 XMI model with a class, enumerations and scalar properties. Translate it together with the same OCL invariant:
 
 ```bash
 docker run --rm -v "$PWD:/workspace" --entrypoint ocl2electrum electrumchecker:latest \
-	--uml /workspace/models/ascensor.uml \
+	--uml /workspace/models/ascensor-papyrus/ascensor.uml \
 	--ocl /workspace/models/ascensor.ocl \
 	--out /workspace/models/ascensor_desde_uml.ele \
 	--steps 5
@@ -51,3 +51,7 @@ Then check the generated file (it contains one check, command index `0`):
 docker run --rm -v "$PWD/models:/models:ro" electrumchecker:latest \
 	--command 0 /models/ascensor_desde_uml.ele
 ```
+
+### Open the elevator model in Papyrus
+
+[`models/ascensor-papyrus/`](models/ascensor-papyrus) contains an Eclipse project with the Papyrus resources `ascensor.di`, `ascensor.notation`, and `ascensor.uml`. In Eclipse, import `models/ascensor-papyrus` using **File > Import > Existing Projects into Workspace**, then open `ascensor.di` to view the class diagram. The `.uml` resource can also be passed directly to `--uml` in the converter.

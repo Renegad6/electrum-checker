@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:configuration="http://www.eclipse.org/papyrus/infra/viewpoints/configuration"
+    xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation"
+    xmlns:style="http://www.eclipse.org/papyrus/infra/viewpoints/policy/style"
+    xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML"
+    xmi:id="_ascensorDiagram" type="PapyrusUMLClassDiagram" name="Ascensor"
+    measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="_ascensorShape" type="2008">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ascensorName" type="5029"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_attributesCompartment" type="7017">
+      <children xmi:type="notation:Shape" xmi:id="_doorPropertyShape" type="3012">
+        <element xmi:type="uml:Property" href="ascensor.uml#_elevatorDoor"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_doorPropertyLocation"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_thresholdPropertyShape" type="3012">
+        <element xmi:type="uml:Property" href="ascensor.uml#_elevatorThreshold"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_thresholdPropertyLocation"/>
+      </children>
+      <styles xmi:type="notation:TitleStyle" xmi:id="_attributesTitle"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_attributesSorting"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_attributesFiltering"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_attributesBounds"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_operationsCompartment" type="7018">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_operationsTitle"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_operationsSorting"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_operationsFiltering"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_operationsBounds"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_nestedClassifiersCompartment" type="7019">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_nestedClassifiersTitle"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_nestedClassifiersSorting"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_nestedClassifiersFiltering"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nestedClassifiersBounds"/>
+    </children>
+    <element xmi:type="uml:Class" href="ascensor.uml#_elevator"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ascensorBounds" x="180" y="120" width="240" height="120"/>
+  </children>
+  <styles xmi:type="notation:StringValueStyle" xmi:id="_diagramCompatibility" name="diagram_compatibility_version" stringValue="1.0.0"/>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_diagramStyle"/>
+  <styles xmi:type="style:PapyrusViewStyle" xmi:id="_papyrusViewStyle">
+    <owner xmi:type="uml:Model" href="ascensor.uml#_ascensorModel"/>
+    <configuration xmi:type="configuration:PapyrusDiagram" href="platform:/plugin/org.eclipse.papyrus.uml.configuration.simplified/resources/configuration/SimpleUML.configuration#_9xMXIBP7EeSS0oyATXohNA"/>
+  </styles>
+  <element xmi:type="uml:Model" href="ascensor.uml#_ascensorModel"/>
+</notation:Diagram>
