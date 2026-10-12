@@ -1,0 +1,44 @@
+module ascensor_seguro
+
+abstract sig EstadoPuerta {}
+one sig Abierta, Cerrando, Cerrada extends EstadoPuerta {}
+
+abstract sig EstadoUmbral {}
+one sig Libre, Ocupado extends EstadoUmbral {}
+
+one sig Ascensor {
+    var puerta: one EstadoPuerta,
+    var umbral: one EstadoUmbral
+}
+
+fact estado_inicial {
+    Ascensor.puerta = Abierta
+    Ascensor.umbral = Libre
+}
+
+fact control_con_enclavamiento {
+    always {
+        (Ascensor.puerta = Abierta and Ascensor.umbral = Libre implies
+            Ascensor.puerta' = Cerrando)
+        and (Ascensor.puerta = Abierta and Ascensor.umbral = Ocupado implies
+            Ascensor.puerta' = Abierta)
+        and (Ascensor.puerta = Cerrando and Ascensor.umbral = Libre implies
+            (Ascensor.puerta' = Cerrada and Ascensor.umbral' = Libre))
+        and (Ascensor.puerta = Cerrando and Ascensor.umbral = Ocupado implies
+            Ascensor.puerta' = Abierta)
+        and (Ascensor.puerta = Cerrada implies
+            (Ascensor.puerta' = Cerrada and Ascensor.umbral' = Libre))
+    }
+}
+
+assert reabre_ante_obstruccion {
+    always (Ascensor.puerta = Cerrando and Ascensor.umbral = Ocupado
+        implies Ascensor.puerta' = Abierta)
+}
+
+assert nunca_cerrada_con_umbral_ocupado {
+    always (Ascensor.puerta = Cerrada implies Ascensor.umbral = Libre)
+}
+
+check reabre_ante_obstruccion for 5 steps
+check nunca_cerrada_con_umbral_ocupado for 5 steps

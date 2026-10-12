@@ -1,0 +1,32 @@
+module ascensor_contraejemplo
+
+abstract sig EstadoPuerta {}
+one sig Abierta, Cerrando, Cerrada extends EstadoPuerta {}
+
+abstract sig EstadoUmbral {}
+one sig Libre, Ocupado extends EstadoUmbral {}
+
+one sig Ascensor {
+    var puerta: one EstadoPuerta,
+    var umbral: one EstadoUmbral
+}
+
+fact estado_inicial {
+    Ascensor.puerta = Abierta
+    Ascensor.umbral = Libre
+}
+
+// Fallo intencional: la puerta no vuelve a consultar el sensor al cerrarse.
+fact control_con_fallo {
+    always {
+        (Ascensor.puerta = Abierta implies Ascensor.puerta' = Cerrando)
+        and (Ascensor.puerta = Cerrando implies Ascensor.puerta' = Cerrada)
+        and (Ascensor.puerta = Cerrada implies Ascensor.puerta' = Cerrada)
+    }
+}
+
+assert no_cerrar_con_persona {
+    always (Ascensor.puerta = Cerrada implies Ascensor.umbral = Libre)
+}
+
+check no_cerrar_con_persona for 5 steps
