@@ -4,7 +4,7 @@ FROM eclipse-temurin:8-jdk AS build
 WORKDIR /opt
 
 RUN apt-get update && \
-    apt-get install -y git && \
+    apt-get install -y git maven && \
     apt-get clean
 
 # Clonar Electrum2 con submódulos (CRÍTICO)
@@ -17,6 +17,10 @@ ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.vfs.watch=false"
 
 # Build del artefacto sin ejecutar las pruebas upstream, que requieren solvers externos.
 RUN ./gradlew build -x test
+
+# Construir el conversor OCL a Electrum.
+COPY ocl2electrum /opt/ocl2electrum
+RUN mvn -q -f /opt/ocl2electrum/pom.xml clean package
 
 # ---------- STAGE 2: RUNTIME ----------
 FROM eclipse-temurin:8-jre
@@ -38,6 +42,9 @@ RUN apt-get update && \
 
 # Copiar el JAR ejecutable final
 COPY --from=build /opt/electrum2/org.alloytools.alloy.dist/target/org.alloytools.alloy.dist.jar /app/electrum.jar
+COPY --from=build /opt/ocl2electrum/target/ocl2electrum-0.1.0.jar /app/ocl2electrum.jar
+COPY ocl2electrum/ocl2electrum.sh /usr/local/bin/ocl2electrum
+RUN chmod +x /usr/local/bin/ocl2electrum
 
 # Script de ejecución
 RUN echo '#!/bin/sh\nexec java -jar /app/electrum.jar --cli "$@"' > /usr/bin/electrum && \

@@ -1,0 +1,5 @@
+/workspaces/electrum-checker/ocl2electrum/src/main/java/org/electrumchecker/ocl2electrum/Ocl2Electrum.java
+/workspaces/electrum-checker/ocl2electrum/target/generated-sources/antlr4/org/electrumchecker/ocl2electrum/OclInvariantBaseVisitor.java
+/workspaces/electrum-checker/ocl2electrum/target/generated-sources/antlr4/org/electrumchecker/ocl2electrum/OclInvariantLexer.java
+/workspaces/electrum-checker/ocl2electrum/target/generated-sources/antlr4/org/electrumchecker/ocl2electrum/OclInvariantParser.java
+/workspaces/electrum-checker/ocl2electrum/target/generated-sources/antlr4/org/electrumchecker/ocl2electrum/OclInvariantVisitor.java

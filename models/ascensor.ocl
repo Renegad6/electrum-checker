@@ -1,0 +1,4 @@
+context Ascensor
+
+inv NoCerrarConPersona:
+    not (self.puerta = Cerrada and self.umbral = Ocupado)
