@@ -1,0 +1,70 @@
+module cruce_temporal
+
+abstract sig Color {}
+one sig Rojo, Amarillo, Verde extends Color {}
+
+abstract sig Fase {}
+one sig VerdeNS, AmarilloNS, VerdeEO, AmarilloEO extends Fase {}
+
+one sig Cruce {
+    var fase: one Fase,
+    var norteSur: one Color,
+    var esteOeste: one Color
+}
+
+fact estado_inicial {
+    Cruce.fase = VerdeNS
+    Cruce.norteSur = Verde
+    Cruce.esteOeste = Rojo
+}
+
+fact luces_segun_fase {
+    always {
+        (Cruce.fase = VerdeNS implies
+            (Cruce.norteSur = Verde and Cruce.esteOeste = Rojo))
+        and (Cruce.fase = AmarilloNS implies
+            (Cruce.norteSur = Amarillo and Cruce.esteOeste = Rojo))
+        and (Cruce.fase = VerdeEO implies
+            (Cruce.norteSur = Rojo and Cruce.esteOeste = Verde))
+        and (Cruce.fase = AmarilloEO implies
+            (Cruce.norteSur = Rojo and Cruce.esteOeste = Amarillo))
+    }
+}
+
+fact ciclo_temporal {
+    always {
+        (Cruce.fase = VerdeNS implies
+            (Cruce.fase' = AmarilloNS and
+                Cruce.norteSur' = Amarillo and Cruce.esteOeste' = Rojo))
+        and (Cruce.fase = AmarilloNS implies
+            (Cruce.fase' = VerdeEO and
+                Cruce.norteSur' = Rojo and Cruce.esteOeste' = Verde))
+        and (Cruce.fase = VerdeEO implies
+            (Cruce.fase' = AmarilloEO and
+                Cruce.norteSur' = Rojo and Cruce.esteOeste' = Amarillo))
+        and (Cruce.fase = AmarilloEO implies
+            (Cruce.fase' = VerdeNS and
+                Cruce.norteSur' = Verde and Cruce.esteOeste' = Rojo))
+    }
+}
+
+assert sin_verdes_conflictivos {
+    always (Cruce.norteSur = Verde implies Cruce.esteOeste != Verde)
+}
+
+assert amarillo_da_paso {
+    always {
+        (Cruce.norteSur = Amarillo implies Cruce.esteOeste = Rojo)
+        and (Cruce.esteOeste = Amarillo implies Cruce.norteSur = Rojo)
+    }
+}
+
+assert ambos_sentidos_avanzan {
+    always eventually (Cruce.fase = VerdeNS)
+    and always eventually (Cruce.fase = VerdeEO)
+}
+
+check sin_verdes_conflictivos for 8 steps
+check amarillo_da_paso for 8 steps
+check ambos_sentidos_avanzan for 8 steps
+run {} for 8 steps
